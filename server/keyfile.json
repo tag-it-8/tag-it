@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "omega-castle-240401",
+  "private_key_id": "c4034e5156c7fd082861d311c43f365313d04460",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDkyGqFLaKzFpDT\nH1NRnBIPs6LHqOaXhoRuSIW0F/Dvza7QLE1TGVhzgHQbXv9t5SDn1SheycY52KBb\nrptHc0wfeKOzhKhg9Um/E7A4PEeOTfuLyMBvze24yayG5uJCFiaoCDh1tl83qRPo\nTSYZ613zRHWq3tWVVKM/tuLJbt6jF8SLwwv+hf/209vre+POh0HdOlzALNN0E7TV\nlR8utD9HreuE8r03f1GT6bv+Ofo9TQsJae8VLVSNpYQrN/10OJ67NpCUx3yymaP3\nb+uM80ELRrDwpyfWxt2vWwsnUAHw7qXQoFolrMN/sqOnr0a3uEdYLGSjAyh/1naJ\nZMobwIKRAgMBAAECggEALnFg7lgtRx21mKYrS83a/MUCrnVjGi98gsbGHaEekA+5\nBRl5OP1UL15MM6I9SBnTbDyhTVy4mNWY+AOiEgcd1OWwlajAZa5lohxlEYVrIUBD\naEUAi7HKKFEIbPpBxBirEEFa9Mpo2evA1s+ShIB7Of8Tw/Qod4APA8gkka+oEoNG\nVZmiTbUOgcP/ARB1dOFow3VcYF2kW3asoUPHPXV0luS1GK2MMJGHhGpStAOoVgwc\nQwspPxKwO0/R/P84zU4sVHKOLuyRHe5xB2hnxMXub2n3HD3Hpq+AtTG8Lp6XaxIg\npG5NA6z3ureuVjlMr5ymERCZJnN0khKm2shfgZgm4QKBgQD7vYV6fVbuKg/0D7Vk\nLsdNUU6FqyOIL4x4zZuncefpEVgn/PdSesoqo6ZQ2Efs2K4yx4pLSZ5tjL4nRbVi\nh9dZjNb9928b5eoD6Ai8u5TucwvpvUR9vHt0jJb571Le0pL1QOJu5v3iVi9m4SBD\n4UnaErZ8RTO6AjhDm1P4jwJJbwKBgQDop3LVQBSC0EH3dn5706YjjuHWWzGI+c9G\np3J0LFA5CL6E7a9HD0M8YCQvmx/Xornkvhz6ktVEBV3ylg32RpuU3vZhyaBrrl5d\nmZzE9luk2VaD9ssdKbRolWc3PBd/mo6SatEiKbWWWqFjm8VLohEH3qe9vmUn4WKb\nWYedewvz/wKBgQCGYGEqxFMt6IgBiI0UACBk9jzK/1KFNJRwO5iV5iib8aU0G0VN\n4rudzSNPTlP+ap95/aeljpOh+JncTsqG4OokJBjzEixeIPkswqQ/UoYqToEScPRp\nhb4EtbM1kPmUdaT6g3sbJfRp6AV/jjZx5YVNgeWlKi91YA/2jqhhKr1WwwKBgQDg\n274752QrjnbDYu4aZdQEN/uD/r2ggrjXs80GBTI//XiN519p0ZGNT+qJbGdZNXhv\nYWOGttWSmZFUfbze0x1ZxCjjGEmI6Y1g76+6GdU3PavFfYiQFhe8oPGSS+z2Mn4r\nezvHxgIwYEXtjMciM3A8Z/E9jUAdTFPOi7hr91n1JwKBgEcy5hJwnyqSlsHe9sEk\n7TiHAJox5fYNVZ9terhvUHC2JHw4oCuYssSnBIugnSwJGV35i1wAx+CFBlj1cBmN\n1JqAN7WE8Hbpp5oKKMnBiKaeF2oyzBw43xB/oyxE1gg6Wg9dI6PaSf7/RI6m30wH\nWePhdwlbeIpuCq4pddVFYTAf\n-----END PRIVATE KEY-----\n",
+  "client_email": "miniwp@omega-castle-240401.iam.gserviceaccount.com",
+  "client_id": "117461024986642117501",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/miniwp%40omega-castle-240401.iam.gserviceaccount.com"
+}
