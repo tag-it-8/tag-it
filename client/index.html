@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+    .header{
+      padding: 2rem;
+    }
+    .navbar-body{
+      background-color: rgb(245, 248, 248);
+    }
+    .navbar-nav a{
+      color: black;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-body fixed-top" >
+            <!-- Navbar brand -->
+            <span class="navbar-brand js-scroll-trigger logo" href="/"><img src="https://img.icons8.com/wired/40/000000/instagram.png"></span>
+            <h5> tag It!</h5>
+          
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+              
+              <!-- Links -->
+              <ul class="navbar-nav col-lg-9 col-sm-6 d-flex justify-content-end"> 
+                  <li class="nav-item">
+                      <a class="nav-link" href="#"><i class="fa fa-lg fa-compass" aria-hidden="true"></i></a>
+                    </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fa fa-lg fa-image" aria-hidden="true" data-toggle="modal" data-target="#addpic" data-whatever="@mdo"></i></a>
+                </li>
+              </ul>
+              <!-- Links -->
+              <form class="form-inline">
+                <div class="md-form my-0">
+                  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                  <i class="fa fa-lg fa-search" aria-hidden="true"></i>
+                </div>
+              </form>
+            </div>
+            <!-- Collapsible content -->
+          
+          </nav>
+          <!--/.Navbar-->
+        
+    </div>
+    <div class="container border">
+      <!-- Social card -->
+<section class="my-5">
+    <div class="row">
+      <div class="col-md-6 col-lg-4"></div>
+        <div class="card news-card">
+          <!-- Heading-->
+          <div class="card-body">
+            <div class="content">
+              <div class="right-side-meta">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(17)-mini.jpg" class="rounded-circle avatar-img z-depth-1-half">Kate
+              </div>
+            </div>
+          </div>
+          <!-- Card image-->
+          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/girl1.jpg" alt="Card image cap"> 
+          <!-- Card content -->
+          <div class="card-body">
+            <div class="social-meta">
+              <p>#adventure #moment</p>
+              <span><i class="fa fa-lg fa-thumbs-up"></i>25 likes</span>
+              <p><i class="fa fa-lg fa-thumbs-down"></i>13 dislikes</p>
+            </div>
+            <hr>
+          </div>
+          <div class="card news-card">
+              <!-- Heading-->
+              <div class="card-body">
+                <div class="content">
+                  <div class="right-side-meta">
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(17)-mini.jpg" class="rounded-circle avatar-img z-depth-1-half">Kate
+                  </div>
+                </div>
+              </div>
+              <!-- Card image-->
+              <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/girl1.jpg" alt="Card image cap"> 
+              <!-- Card content -->
+              <div class="card-body">
+                <div class="social-meta">
+                  <p>#adventure #moment</p>
+                  <span><i class="fa fa-lg fa-thumbs-up"></i>25 likes</span>
+                  <p><i class="fa fa-lg fa-thumbs-down"></i>13 dislikes</p>
+                </div>
+                <hr>
+              </div>
+        </div>
+      </div>
+    </div>  
+  </section>
+    </div>
+
+    <div class="modal fade" id="addpic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="md-form">
+                        <div class="file-field">
+                          <div class="z-depth-1-half mb-4">
+                            <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid"
+                              alt="example placeholder">
+                          </div>
+                          <div class="d-flex justify-content-center border">
+                            <div class="btn btn-mdb-color btn-rounded float-left">
+                              <input type="file">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning" id="submitAdd">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="./js/move.js"></script>
+</body>
+</html>
