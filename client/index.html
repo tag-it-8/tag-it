@@ -48,8 +48,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ">
-                        <input class="form-control"
+                        <form @submit.prevent>
+                        <input v-model="searchImage" v-on:keyup="searchingImage" class="form-control"
                             style="border:1px solid #D3D3D3; border-radius: 30px;width:400px;padding-left: 15px;height: 40px;color:black">
+                        </form>
                     </li>
                     <li v-on:click="showImage" class="nav-item" style="margin-left:25px;margin-top:-4px;cursor:pointer">
                         <h3><i class="fas fa-camera"></i></h3>
@@ -120,7 +122,9 @@
                 </div>
                 <div style="display:flex;justify-content: center">
                     <h3>
-                        <div style="cursor:pointer;margin-left:0px;font-weight: 550;font-family: 'Roboto';  font-size: 20px;color:grey">AI and Machine Learning</div>
+                        <div
+                            style="cursor:pointer;margin-left:0px;font-weight: 550;font-family: 'Roboto';  font-size: 20px;color:grey">
+                            AI and Machine Learning</div>
 
 
                     </h3>
@@ -198,67 +202,63 @@
 
                 <div style="display:flex;flex-wrap: wrap;justify-content: center" v-if="show.allImage">
 
-                    <div v-for="image in images" class="card" style="width: 18rem;margin:15px;" >
-                        <img style="cursor:pointer" data-toggle="modal"
-                        v-bind:data-target="'#'+image._id" v-bind:src="image.image"
-                            class="card-img-top" alt="...">
+                    <div v-for="image in images" class="card" style="width: 18rem;margin:15px;">
+                        <img style="cursor:pointer" data-toggle="modal" v-bind:data-target="'#'+image._id"
+                            v-bind:src="image.image" class="card-img-top" alt="...">
                         <div class="card-body" style="display :flex">
                             <h4>{{ image.tags[0]}}</h4>
                             <p class="card-text"></p>
-                            <button
-                            style="margin-left:130px;border-radius: 20px;background-color: pink;border-color:pink;color:red"
-                            type="button" class="btn btn-primary">Like
-                        </button>
+                            <h3><i class="far fa-heart" style="margin-left:160px;cursor:pointer"></i></h3>
+
                         </div>
-                        <div style="border-radius: 20px" class="modal fade" v-bind:id="image._id" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div style="border-radius: 20px" class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div style="display:flex;justify-content: center;margin-top:20px">
+                        <div style="border-radius: 20px" class="modal fade" v-bind:id="image._id" tabindex="-1"
+                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div style="border-radius: 20px" class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div style="display:flex;justify-content: center;margin-top:20px">
 
-                                    <h5 class="modal-title" id="exampleModalLabel">Title</h5>
-                                </div>
-                                <div style="display:flex;justify-content: center">
-                                    <img v-bind:src="image.image"
-                                        class="card-img-top" style="width:450px;margin:20px;border: 3px solid black"
-                                        alt="...">
-                                </div>
+                                        <h5 class="modal-title" id="exampleModalLabel">Title</h5>
+                                    </div>
+                                    <div style="display:flex;justify-content: center">
+                                        <img v-bind:src="image.image" class="card-img-top"
+                                            style="width:450px;margin:20px;border: 3px solid black" alt="...">
+                                    </div>
 
-                                <div class="modal-body" style="display:flex;justify-content: center">
-                                    <p
-                                        style="margin: 5px;border: 1px solid grey; border-radius: 20px;padding-left:8px;;padding-right:8px;;padding-top:2px;;padding-bottom:3px;">
-                                        {{ image.tags}}</p>
-                    
+                                    <div class="modal-body" style="display:flex;justify-content: center">
+                                        <p
+                                            style="margin: 5px;border: 1px solid grey; border-radius: 20px;padding-left:8px;;padding-right:8px;;padding-top:2px;;padding-bottom:3px;">
+                                            {{ image.tags}}</p>
 
-                                </div>
-                                <div class="modal-footer">
-                                    <button style="border-radius: 20px" type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Close</button>
-                                    <button
-                                        style="border-radius: 20px;background-color: pink;border-color:pink;color:red"
-                                        type="button" class="btn btn-primary">Love
-                                    </button>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button style="border-radius: 20px" type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+
+                                        <button
+                                            style="border-radius: 20px;background-color: pink;border-color:pink;color:red"
+                                            type="button" class="btn btn-primary">Love
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
 
                 <div style="display:flex;flex-wrap: wrap;justify-content: center" v-if="!show.allImage">
 
-                    <div v-for="image in userImages" class="card" style="width: 18rem;margin:15px;cursor:pointer" data-toggle="modal"
-                        data-target="#detail1">
-                        <img v-bind:src="image.image"
-                            class="card-img-top" alt="...">
+                    <div v-for="image in userImages" class="card" style="width: 18rem;margin:15px;cursor:pointer"
+                        data-toggle="modal" data-target="#detail1">
+                        <img v-bind:src="image.image" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h3>Title</h3>
+                            <h3>{{image.tags[0]}}</h3>
+                            <div v-for=""></div>
                             <p class="card-text">{{ image.tags}}</p>
-                            <button
-                            style="margin-right:20px;margin-top:-5px;font-family: 'Roboto';border-radius: 35px"
-                            class="btn btn-outline-danger" type="submit">Delete</button>
+                            <button v-on:click="deleteImage(image._id)" style="margin-right:20px;margin-top:-5px;font-family: 'Roboto';border-radius: 35px"
+                                class="btn btn-outline-danger" type="submit">Delete</button>
                         </div>
-                
+
                     </div>
 
 

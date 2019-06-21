@@ -24,14 +24,33 @@ const app = new Vue({
       login: "",
       fetch: ""
     },
+    searchImage: "",
     images: [],
     userImages: []
   },
   components: {
     "picture-input": PictureInput
   },
-
   methods: {
+    searchingImage(){
+      this.findAll(() => {
+        if(this.searchImage != ""){
+          let arr = []
+          this.images.forEach((image) => {
+            let temp = image.tags.join("").toLowerCase()
+            if (temp.includes(this.searchImage)){
+              arr.push(image)
+            }
+            // image.tags.forEach((tag) => {
+            //   if (tag.includes(this.searchImage)){
+            //     arr.push(image)
+            //   }
+            // })
+          })
+          this.images = arr
+        }
+      })
+    },
     showImage() {
       if (this.show.image == false) {
         this.show.image = true;
@@ -83,7 +102,7 @@ const app = new Vue({
       localStorage.clear();
       this.show.islogin = false;
     },
-    findAll() {
+    findAll(cb) {
       axios({
         method: "GET",
         url: `${url}/image`,
@@ -93,7 +112,9 @@ const app = new Vue({
       })
         .then(({ data }) => {
           this.images = data;
-          console.log(data);
+          if(cb){
+            cb()
+          }
         })
         .catch(error => {
           this.error.login = `Error: ${error}`;
@@ -144,6 +165,24 @@ const app = new Vue({
           console.log(err);
         });
     },
+    deleteImage(id) {
+      axios({
+        url: `${url}/image/${id}`,
+        method: "DELETE",
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          this.showMyImage();
+    
+          console.log(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+    },
     showMyImage() {
       this.show.allImage = false;
       this.show.myImage = true;
@@ -158,7 +197,20 @@ const app = new Vue({
     }
   },
 
-  computed: {},
+  computed: {
+    // searchingImage(){
+    
+    //   let arr = []
+    //   this.images.forEach((image) => {
+    //     image.tags.forEach((tag) => {
+    //       if (tag.includes(this.searchImage)){
+    //         arr.push(image)
+    //       }
+    //     })
+    //   })
+    //   return arr
+    // }
+  },
 
   created() {
     if (localStorage.getItem("token")) {
