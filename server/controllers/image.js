@@ -58,9 +58,37 @@ class UserController{
         if(req.query.find){
             get.UserId = req.decoded.id
         }
-        Image.find(get)
+        Image.find({}, {}, {
+            sort:{
+                _id: -1
+            }
+        })
         .then((result) => {
             res.status(200).json(result)
+        })
+        .catch(next)
+    }
+
+    static likeUnlike(req, res, next) {
+        Image.findById(req.params.imageId)
+        .then(result => {
+            if (req.body.option === 'like') {
+                if (result.voters.indexOf(req.decoded.id) === -1) {
+                    return Image.findByIdAndUpdate(req.params.imageId, {
+                        $push: {voters: req.decoded.id}
+                      })  
+                } else {
+                    return result
+                }
+            } else if (req.body.option === 'unlike') {
+                if (result.voters.indexOf(req.decoded.id) !== -1) {
+                    return Image.findByIdAndUpdate(req.params.imageId, {
+                        $pull: {voters: req.decoded.id}
+                      })  
+                } else {
+                    return result
+                }
+            }
         })
         .catch(next)
     }

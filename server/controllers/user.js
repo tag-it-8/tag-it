@@ -22,12 +22,14 @@ class UserController{
         .catch(next)
     }
     static signin(req,res,next){
+        console.log('masuk signin')
         let email = req.body.email
         let password = req.body.password
         User.findOne({
             email: email
         })
         .then((result) => {
+            console.log(result)
             if (result){
                 let check = register.checkPassword(password, result.password)
                 if (check == true){

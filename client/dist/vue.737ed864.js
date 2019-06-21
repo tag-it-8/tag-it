@@ -118,39 +118,180 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"src/vue.js":[function(require,module,exports) {
+var url = "http://localhost:3000";
+var picture = PictureInput;
 var app = new Vue({
   el: "#app",
   data: {
-    tags: []
+    tags: [],
+    show: {
+      myImage: false,
+      allImage: true,
+      islogin: false,
+      image: false
+    },
+    register: {
+      name: "",
+      email: "",
+      password: ""
+    },
+    login: {
+      email: "",
+      password: ""
+    },
+    error: {
+      register: "",
+      login: "",
+      fetch: ""
+    },
+    images: [],
+    userImages: []
   },
   components: {
-    'picture-input': PictureInput
+    "picture-input": PictureInput
   },
   methods: {
-    tes: function tes() {
-      console.log(this.$refs.pictureInput.file);
-      console.log(this.tags);
-      var newImage = new FormData();
-      newImage.append('image', this.$refs.pictureInput.file);
-      newImage.append('tags', this.tags);
-      console.log(newImage);
+    showImage: function showImage() {
+      if (this.show.image == false) {
+        this.show.image = true;
+      } else if (this.show.image == true) {
+        this.show.image = false;
+      }
+    },
+    userRegister: function userRegister() {
+      var _this = this;
+
+      this.error.register = "";
       axios({
-        url: "http://localhost:3000/image",
-        method: 'post',
-        data: newImage,
-        headers: {
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMGI3ZGRjNTBkMjBjMzJkMzdkNDA4ZiIsImVtYWlsIjoidm9sQG1haWwuY29tIiwibmFtZSI6IlZvbGRlbW9ydCIsImlhdCI6MTU2MTAzOTM1MH0.GqimOBmQZr8ydnBYzBDuhzxVkKUkK-KXyPtUjAf0bds'
+        method: "POST",
+        url: "".concat(url, "/signup"),
+        data: {
+          name: this.register.name,
+          email: this.register.email,
+          password: this.register.password
         }
       }).then(function (_ref) {
         var data = _ref.data;
+        _this.register.name = "";
+        _this.register.email = "";
+        _this.register.password = "";
+      }).catch(function (error) {
+        _this.error.register = "Error: ".concat(error.response.data.message);
+      });
+    },
+    userLogin: function userLogin() {
+      var _this2 = this;
+
+      this.errorLogin = "";
+      axios({
+        method: "POST",
+        url: "".concat(url, "/signin"),
+        data: {
+          email: this.login.email,
+          password: this.login.password
+        }
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        localStorage.setItem("token", data.token);
+
+        _this2.findAll();
+
+        console.log(localStorage);
+        _this2.show.islogin = true;
+      }).catch(function (error) {
+        _this2.error.login = "Error: ".concat(error);
+      });
+    },
+    logout: function logout() {
+      localStorage.clear();
+      this.show.islogin = false;
+    },
+    findAll: function findAll() {
+      var _this3 = this;
+
+      axios({
+        method: "GET",
+        url: "".concat(url, "/image"),
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }).then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.images = data;
+        console.log(data);
+      }).catch(function (error) {
+        _this3.error.login = "Error: ".concat(error);
+      });
+    },
+    findUserImage: function findUserImage() {
+      var _this4 = this;
+
+      axios({
+        method: "GET",
+        url: "".concat(url, "/image?find=user"),
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }).then(function (_ref4) {
+        var data = _ref4.data;
+        _this4.userImages = data;
+        console.log(data);
+      }).catch(function (error) {
+        _this4.error.login = "Error: ".concat(error);
+      });
+    },
+    tes: function tes() {
+      var _this5 = this;
+
+      console.log(this.$refs.pictureInput);
+      console.log(this.$refs.pictureInput.file);
+      console.log(this.tags);
+      var newImage = new FormData();
+      newImage.append("image", this.$refs.pictureInput.file);
+      newImage.append("tags", this.tags);
+      console.log(newImage);
+      axios({
+        url: "".concat(url, "/image"),
+        method: "post",
+        data: newImage,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        _this5.show.image = false;
+        _this5.showAllImage = true;
+
+        _this5.findAll();
+
         console.log(data);
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    showMyImage: function showMyImage() {
+      this.show.allImage = false;
+      this.show.myImage = true;
+      this.show.image = false;
+      this.findUserImage();
+    },
+    showAllImage: function showAllImage() {
+      this.show.allImage = true;
+      this.show.myImage = false;
+      this.show.image = false;
+      this.findAll();
     }
   },
-  computed: {},
-  created: function created() {}
+  computed: {
+    search: function search() {}
+  },
+  created: function created() {
+    if (localStorage.getItem("token")) {
+      console.log(this.$refs.pictureInput);
+      this.show.islogin = true;
+      this.findAll();
+    }
+  }
 });
 },{}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -180,7 +321,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40863" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39821" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

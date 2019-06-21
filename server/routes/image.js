@@ -9,5 +9,6 @@ routes.post("/", image.multer.single('image'), image.sendUploadToGCS, TagDetecti
 routes.delete("/:imageId", Authorization, ImageController.deleteImage)
 routes.post("/label-search", ImageController.labelDetection)
 routes.get("/", ImageController.findAll)
+routes.patch("/:imageId", ImageController.likeUnlike)
 
 module.exports = routes
