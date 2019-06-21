@@ -5,6 +5,7 @@ const { OAuth2Client } = require('google-auth-library');
 
 module.exports = {
   Authentication: function (req, res, next){
+      console.log('asdasd')
     let token = req.headers.token
     if(!token){
         throw {
@@ -13,6 +14,7 @@ module.exports = {
         }
     } else {
         let decoded = jwt.verify(token)
+        console.log(decoded)
         User.findOne({
             email: decoded.email})
         .then((user) => {
