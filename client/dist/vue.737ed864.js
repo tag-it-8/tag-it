@@ -120,9 +120,16 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"src/vue.js":[function(require,module,exports) {
 var url = "http://localhost:3000";
 var picture = PictureInput;
+var Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000
+});
 var app = new Vue({
   el: "#app",
   data: {
+    loading: false,
     tags: [],
     show: {
       myImage: false,
@@ -144,6 +151,7 @@ var app = new Vue({
       login: "",
       fetch: ""
     },
+    searchImage: "",
     images: [],
     userImages: []
   },
@@ -151,6 +159,25 @@ var app = new Vue({
     "picture-input": PictureInput
   },
   methods: {
+    searchingImage: function searchingImage() {
+      var _this = this;
+
+      this.findAll(function () {
+        if (_this.searchImage != "") {
+          var arr = [];
+
+          _this.images.forEach(function (image) {
+            var temp = image.tags.join("").toLowerCase();
+
+            if (temp.includes(_this.searchImage)) {
+              arr.push(image);
+            }
+          });
+
+          _this.images = arr;
+        }
+      });
+    },
     showImage: function showImage() {
       if (this.show.image == false) {
         this.show.image = true;
@@ -159,7 +186,7 @@ var app = new Vue({
       }
     },
     userRegister: function userRegister() {
-      var _this = this;
+      var _this2 = this;
 
       this.error.register = "";
       axios({
@@ -172,15 +199,19 @@ var app = new Vue({
         }
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.register.name = "";
-        _this.register.email = "";
-        _this.register.password = "";
+        _this2.register.name = "";
+        _this2.register.email = "";
+        _this2.register.password = "";
+        Toast.fire({
+          type: 'success',
+          title: 'Register Success, You can login now'
+        });
       }).catch(function (error) {
-        _this.error.register = "Error: ".concat(error.response.data.message);
+        _this2.error.register = "Error: ".concat(error.response.data.message);
       });
     },
     userLogin: function userLogin() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.errorLogin = "";
       axios({
@@ -193,21 +224,41 @@ var app = new Vue({
       }).then(function (_ref2) {
         var data = _ref2.data;
         localStorage.setItem("token", data.token);
+        localStorage.setItem("id", data.id);
 
-        _this2.findAll();
+        _this3.findAll();
 
         console.log(localStorage);
-        _this2.show.islogin = true;
+        _this3.show.islogin = true;
+        Toast.fire({
+          type: 'success',
+          title: 'Logged in successfully'
+        });
       }).catch(function (error) {
-        _this2.error.login = "Error: ".concat(error);
+        _this3.error.login = "Error: ".concat(error);
       });
     },
     logout: function logout() {
-      localStorage.clear();
-      this.show.islogin = false;
+      var _this4 = this;
+
+      Swal.fire({
+        title: 'Gotta go?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes !'
+      }).then(function (result) {
+        if (result.value) {
+          localStorage.clear();
+          _this4.show.islogin = false;
+          Toast.fire({
+            title: 'Logged out successfully'
+          });
+        }
+      });
     },
-    findAll: function findAll() {
-      var _this3 = this;
+    findAll: function findAll(cb) {
+      var _this5 = this;
 
       axios({
         method: "GET",
@@ -217,14 +268,18 @@ var app = new Vue({
         }
       }).then(function (_ref3) {
         var data = _ref3.data;
-        _this3.images = data;
         console.log(data);
+        _this5.images = data;
+
+        if (cb) {
+          cb();
+        }
       }).catch(function (error) {
-        _this3.error.login = "Error: ".concat(error);
+        _this5.error.login = "Error: ".concat(error);
       });
     },
     findUserImage: function findUserImage() {
-      var _this4 = this;
+      var _this6 = this;
 
       axios({
         method: "GET",
@@ -234,14 +289,14 @@ var app = new Vue({
         }
       }).then(function (_ref4) {
         var data = _ref4.data;
-        _this4.userImages = data;
+        _this6.userImages = data;
         console.log(data);
       }).catch(function (error) {
-        _this4.error.login = "Error: ".concat(error);
+        _this6.error.login = "Error: ".concat(error);
       });
     },
     tes: function tes() {
-      var _this5 = this;
+      var _this7 = this;
 
       console.log(this.$refs.pictureInput);
       console.log(this.$refs.pictureInput.file);
@@ -250,6 +305,7 @@ var app = new Vue({
       newImage.append("image", this.$refs.pictureInput.file);
       newImage.append("tags", this.tags);
       console.log(newImage);
+      this.loading = true;
       axios({
         url: "".concat(url, "/image"),
         method: "post",
@@ -259,14 +315,53 @@ var app = new Vue({
         }
       }).then(function (_ref5) {
         var data = _ref5.data;
-        _this5.show.image = false;
-        _this5.showAllImage = true;
+        _this7.loading = false;
+        _this7.show.image = false;
+        _this7.show.allImage = true;
 
-        _this5.findAll();
+        _this7.findAll();
 
+        Toast.fire({
+          type: 'success',
+          title: 'Image posted successully'
+        });
         console.log(data);
       }).catch(function (err) {
         console.log(err);
+      });
+    },
+    deleteImage: function deleteImage(id) {
+      var _this8 = this;
+
+      Swal.fire({
+        title: 'Delete this image?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then(function (result) {
+        if (result.value) {
+          axios({
+            url: "".concat(url, "/image/").concat(id),
+            method: "DELETE",
+            headers: {
+              token: localStorage.getItem("token")
+            }
+          }).then(function (_ref6) {
+            var data = _ref6.data;
+
+            _this8.showMyImage();
+
+            Toast.fire({
+              type: 'success',
+              title: 'Image deleted'
+            });
+            console.log(data);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }
       });
     },
     showMyImage: function showMyImage() {
@@ -280,14 +375,46 @@ var app = new Vue({
       this.show.myImage = false;
       this.show.image = false;
       this.findAll();
+    },
+    isVote: function isVote(imageId) {
+      var image = this.images.find(function (image) {
+        return image._id === imageId;
+      });
+
+      if (image.voters.indexOf(localStorage.id) === -1) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    vote: function vote(id, option) {
+      var _this9 = this;
+
+      console.log('masuk vote');
+      axios({
+        url: "".concat(url, "/image/").concat(id),
+        method: "patch",
+        data: {
+          option: option
+        },
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }).then(function (_ref7) {
+        var data = _ref7.data;
+        console.log(data);
+
+        _this9.findAll();
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
-  computed: {
-    search: function search() {}
-  },
+  computed: {},
   created: function created() {
     if (localStorage.getItem("token")) {
-      console.log(this.$refs.pictureInput);
+      console.log(localStorage.id); // console.log(this.$refs.pictureInput)
+
       this.show.islogin = true;
       this.findAll();
     }
@@ -321,7 +448,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41441" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42005" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

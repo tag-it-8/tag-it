@@ -1,8 +1,17 @@
 const url = `http://localhost:3000`;
 const picture = PictureInput
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+
 const app = new Vue({
   el: "#app",
   data: {
+    loading: false,
     tags: [],
     show: {
       myImage: false,
@@ -32,6 +41,7 @@ const app = new Vue({
     "picture-input": PictureInput
   },
   methods: {
+    
     searchingImage(){
       this.findAll(() => {
         if(this.searchImage != ""){
@@ -41,11 +51,6 @@ const app = new Vue({
             if (temp.includes(this.searchImage)){
               arr.push(image)
             }
-            // image.tags.forEach((tag) => {
-            //   if (tag.includes(this.searchImage)){
-            //     arr.push(image)
-            //   }
-            // })
           })
           this.images = arr
         }
@@ -73,6 +78,10 @@ const app = new Vue({
           this.register.name = "";
           this.register.email = "";
           this.register.password = "";
+          Toast.fire({
+            type: 'success',
+            title: 'Register Success, You can login now'
+          })
         })
         .catch(error => {
           this.error.register = `Error: ${error.response.data.message}`;
@@ -90,17 +99,35 @@ const app = new Vue({
       })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
+          localStorage.setItem("id", data.id);
           this.findAll();
           console.log(localStorage);
           this.show.islogin = true;
+          Toast.fire({
+            type: 'success',
+            title: 'Logged in successfully'
+          })
         })
         .catch(error => {
           this.error.login = `Error: ${error}`;
         });
     },
     logout() {
-      localStorage.clear();
-      this.show.islogin = false;
+      Swal.fire({
+        title: 'Gotta go?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes !'
+      }).then((result) => {
+        if (result.value) {
+          localStorage.clear();
+          this.show.islogin = false;
+          Toast.fire({
+            title: 'Logged out successfully'
+          })
+        }
+      })
     },
     findAll(cb) {
       axios({
@@ -111,6 +138,7 @@ const app = new Vue({
         }
       })
         .then(({ data }) => {
+          console.log(data)
           this.images = data;
           if(cb){
             cb()
@@ -146,6 +174,8 @@ const app = new Vue({
       newImage.append("tags", this.tags);
       console.log(newImage);
 
+      this.loading = true
+
       axios({
         url: `${url}/image`,
         method: "post",
@@ -155,10 +185,14 @@ const app = new Vue({
         }
       })
         .then(({ data }) => {
+          this.loading = false
           this.show.image = false
-          this.showAllImage = true
+          this.show.allImage = true
           this.findAll();
-    
+          Toast.fire({
+            type: 'success',
+            title: 'Image posted successully'
+          })
           console.log(data);
         })
         .catch(err => {
@@ -166,21 +200,35 @@ const app = new Vue({
         });
     },
     deleteImage(id) {
-      axios({
-        url: `${url}/image/${id}`,
-        method: "DELETE",
-        headers: {
-          token: localStorage.getItem("token")
+      Swal.fire({
+        title: 'Delete this image?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then((result) => {
+        if (result.value) {
+          axios({
+            url: `${url}/image/${id}`,
+            method: "DELETE",
+            headers: {
+              token: localStorage.getItem("token")
+            }
+          })
+            .then(({ data }) => {
+              this.showMyImage();
+              Toast.fire({
+                type: 'success',
+                title: 'Image deleted'
+              })
+              console.log(data);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       })
-        .then(({ data }) => {
-          this.showMyImage();
-    
-          console.log(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
 
     },
     showMyImage() {
@@ -194,27 +242,49 @@ const app = new Vue({
       this.show.myImage = false;
       this.show.image = false;
       this.findAll();
+    },
+
+    isVote(imageId) {
+      let image = this.images.find(image => {
+        return image._id === imageId
+      })
+      if (image.voters.indexOf(localStorage.id) === -1) {
+        return false
+      } else {
+        return true
+      }
+    },
+
+    vote(id, option) {
+      console.log('masuk vote')
+      axios({
+        url: `${url}/image/${id}`,
+        method: "patch",
+        data: {
+          option: option
+        },
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+      .then(({data}) => {
+        console.log(data)
+        this.findAll()
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 
   computed: {
-    // searchingImage(){
-    
-    //   let arr = []
-    //   this.images.forEach((image) => {
-    //     image.tags.forEach((tag) => {
-    //       if (tag.includes(this.searchImage)){
-    //         arr.push(image)
-    //       }
-    //     })
-    //   })
-    //   return arr
-    // }
   },
 
   created() {
+    
     if (localStorage.getItem("token")) {
-      console.log(this.$refs.pictureInput)
+      console.log(localStorage.id)
+      // console.log(this.$refs.pictureInput)
       this.show.islogin = true;
       this.findAll();
     }

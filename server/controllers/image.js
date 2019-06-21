@@ -58,11 +58,12 @@ class UserController{
         if(req.query.find){
             get.UserId = req.decoded.id
         }
-        Image.find({}, {}, {
+        Image.find(get, {}, {
             sort:{
                 _id: -1
             }
         })
+        .populate('UserId')
         .then((result) => {
             res.status(200).json(result)
         })
@@ -70,6 +71,7 @@ class UserController{
     }
 
     static likeUnlike(req, res, next) {
+        console.log('masuk likeUnlike')
         Image.findById(req.params.imageId)
         .then(result => {
             if (req.body.option === 'like') {
@@ -90,7 +92,11 @@ class UserController{
                 }
             }
         })
+        .then(data => {
+            res.status(200).json({data})
+        })
         .catch(next)
+        
     }
 }
 

@@ -41,7 +41,8 @@ class UserController{
                     console.log(getPassword())
                     let temp = jwt.sign(userSign)
                     let token = {
-                        token: temp
+                        token: temp,
+                        id: result._id
                     }
                     res.status(200).json(token)
                 } else {
