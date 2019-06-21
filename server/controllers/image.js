@@ -53,6 +53,17 @@ class UserController{
         })
         .catch(next)
     }
+    static findAll(req,res,next){
+        let get = {}
+        if(req.query.find){
+            get.UserId = req.decoded.id
+        }
+        Image.find(get)
+        .then((result) => {
+            res.status(200).json(result)
+        })
+        .catch(next)
+    }
 }
 
 module.exports = UserController
