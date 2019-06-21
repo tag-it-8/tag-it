@@ -1,39 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="google-signin-client_id" content="446955434295-e4c0ioeh1pg6b5ened74fdhkjb7olujd.apps.googleusercontent.com">  
-  <script src="https://apis.google.com/js/platform.js" async defer></script>  
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <title>Tag-It!</title>
-</head>
-<body>
-  <div id="app">
-    <div class="container">
-        <div class="container" style="width: 30%">
-          <picture-input ref="pictureInput"></picture-input>
-          
-          <div class="container d-flex" style="justify-content: center">
-            <button @click="tes" type="button" class="btn btn-primary">Submit</button>
-          </div>
-        </div>
-    </div>
-  </div>
+<html>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@johmun/vue-tags-input/dist/vue-tags-input.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.8.0/dist/voerro-vue-tagsinput.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-  <script src="https://momentjs.com/downloads/moment.js"></script>
-  <script src="https://unpkg.com/vue-picture-input"></script> 
-  <script src="./src/main.js"></script>
-  <script src="./src/vue.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <meta name="google-signin-client_id"
+        content="446955434295-e4c0ioeh1pg6b5ened74fdhkjb7olujd.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <style>
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://kit.fontawesome.com/073ead26e8.js"></script> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <nav style="" class="navbar navbar-expand-lg navbar-light bg-light" v-if="show.islogin">
+            <a style="display:flex;margin-top:15px;margin-bottom:11px;" v-on:click="showAllImage">
+                <h3
+                    style="cursor:pointer;margin-left:10px;margin-bottom:15px;display:flex;margin-right:20px;font-weight: 550;font-family: 'Roboto';  font-size: 26px;">
+                    <div style="color:#4c8bf5">T</div>
+                    <div style="color:#db3236">O</div>
+                    <div style="color:#f4c20d">O</div>
+                    <div style="color:#4c8bf5">G</div>
+                    <div style="color:#3cba54">L</div>
+                    <div style="color:#db3236">E</div>
+                </h3>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <input class="form-control"
+                            style="border:1px solid #D3D3D3; border-radius: 30px;width:400px;padding-left: 15px;height: 40px;color:black">
+                    </li>
+                    <li v-on:click="showImage" class="nav-item" style="margin-left:25px;margin-top:-4px;cursor:pointer">
+                        <h3><i class="fas fa-camera"></i></h3>
+
+                        <!-- data-toggle="modal" data-target="#modalPhoto" -->
+                        <!-- <div id="modalPhoto" class="modal " tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel">
+                            <div class="modal-dialog modal-lg">
+
+                                <div class="modal-content">
+                                    <div class="container" style="width: 30%">
+                                        asd
+                                    <picture-input ref="pictureInput"></picture-input>
+
+                                        <div class="container d-flex" style="justify-content: center">
+                                            <button @click="tes" type="button" class="btn btn-primary">Submit</button>
+                                        </div> -->
+                        <!-- </div>
+                                </div>
+                            </div>
+                        </div>  -->
+                    </li>
+                    <li class="nav-item active">
+                        <a v-on:click="showMyImage" class="nav-link"
+                            style="margin-left:20px;margin-top: 0px;cursor:pointer">My Image <span
+                                class="sr-only"></span></a>
+                    </li>
+
+                </ul>
+
+                <button v-on:click="logout"
+                    style="margin-right:20px;margin-top:-5px;font-family: 'Roboto';border-radius: 35px"
+                    class="btn btn-outline-warning" type="submit">Log out</button>
+
+            </div>
+        </nav>
+        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="!show.islogin">
+            <a style="display:flex;margin-top:15px;margin-bottom:15px;">
+                <h3
+                    style="cursor:pointer;margin-left:10px;display:flex;margin-right:10px;font-weight: 550;font-family: 'Roboto';  font-size: 26px;">
+                    <div style="color:#4c8bf5">T</div>
+                    <div style="color:#db3236">O</div>
+                    <div style="color:#f4c20d">O</div>
+                    <div style="color:#4c8bf5">G</div>
+                    <div style="color:#3cba54">L</div>
+                    <div style="color:#db3236">E </div>
+
+                </h3>
+                <h3>
+                    <div style="cursor:pointer;margin-right:10px;margin-left:0px;margin-right:15px;font-weight: 550;font-family: 'Roboto';  font-size: 26px;color:grey">LOGIN</div>
+
+                </h3>
+            </a>
+        </nav> -->
+        <div id="page">
+            <div class="container" v-if="!show.islogin">
+                <div style="display:flex;justify-content: center">
+                    <h3
+                        style="margin-top:15%;cursor:pointer;display:flex;font-weight: 550;font-family: 'Roboto';  font-size: 72px;">
+                        <div style="color:#4c8bf5">T</div>
+                        <div style="color:#db3236">O</div>
+                        <div style="color:#f4c20d">O</div>
+                        <div style="color:#4c8bf5">G</div>
+                        <div style="color:#3cba54">L</div>
+                        <div style="color:#db3236">E </div>
+
+                    </h3>
+                </div>
+                <div style="display:flex;justify-content: center">
+                    <h3>
+                        <div style="cursor:pointer;margin-left:0px;font-weight: 550;font-family: 'Roboto';  font-size: 20px;color:grey">AI and Machine Learning</div>
+
+
+                    </h3>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm" style="margin:80px">
+                        <h3>Register</h3>
+                        <form @submit.prevent="userRegister">
+                            <div class="form-group">
+                                <label for="registerName">Name</label>
+                                <input v-model="register.name" type="text" class="form-control" id="registerName"
+                                    aria-describedby="emailHelp" placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerEmail">Email address</label>
+                                <input v-model="register.email" type="email" class="form-control" id="registerEmail"
+                                    aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerPassword">Password</label>
+                                <input v-model="register.password" type="password" class="form-control"
+                                    id="registerPassword" placeholder="Password">
+                            </div>
+                            <button style="width: 80px;font-family: 'Roboto';border-radius: 20px" type="submit"
+                                class="btn btn-outline-primary">Register</button>
+                        </form>
+                        <br>
+                        <div id="errorRegister">
+                            <p class="error" style="color:red;">
+                                {{ error.register }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm" style="margin:80px">
+                        <h3>Login</h3>
+                        <form @submit.prevent="userLogin">
+                            <div class="form-group" style="">
+                                <label for="loginEmail">Email address</label>
+                                <input v-model="login.email" type="email" class="form-control" id="loginEmail"
+                                    aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input v-model="login.password" type="password" class="form-control" id="loginPassword"
+                                    placeholder="Password">
+                            </div>
+                            <button style="width: 80px;font-family: 'Roboto';border-radius: 20px" type="submit"
+                                class="btn btn-outline-primary">Login</button>
+                        </form>
+                        <br>
+                        <div id="errorLogin">
+                            <p class="error" style="color:red;">
+                                {{ error.login }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div v-if="show.islogin">
+                <div class="w3-container w3-center w3-animate-top" v-if="show.image">
+                    <div class="container">
+                        <div class="container" style="width: 30%">
+                            <picture-input ref="pictureInput"></picture-input>
+
+                            <div class="container d-flex" style="justify-content: center">
+                                <button @click="tes" type="button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;flex-wrap: wrap;justify-content: center" v-if="show.allImage">
+
+                    <div v-for="image in images" class="card" style="width: 18rem;margin:15px;" >
+                        <img style="cursor:pointer" data-toggle="modal"
+                        v-bind:data-target="'#'+image._id" v-bind:src="image.image"
+                            class="card-img-top" alt="...">
+                        <div class="card-body" style="display :flex">
+                            <h4>{{ image.tags[0]}}</h4>
+                            <p class="card-text"></p>
+                            <button
+                            style="margin-left:130px;border-radius: 20px;background-color: pink;border-color:pink;color:red"
+                            type="button" class="btn btn-primary">Like
+                        </button>
+                        </div>
+                        <div style="border-radius: 20px" class="modal fade" v-bind:id="image._id" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div style="border-radius: 20px" class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div style="display:flex;justify-content: center;margin-top:20px">
+
+                                    <h5 class="modal-title" id="exampleModalLabel">Title</h5>
+                                </div>
+                                <div style="display:flex;justify-content: center">
+                                    <img v-bind:src="image.image"
+                                        class="card-img-top" style="width:450px;margin:20px;border: 3px solid black"
+                                        alt="...">
+                                </div>
+
+                                <div class="modal-body" style="display:flex;justify-content: center">
+                                    <p
+                                        style="margin: 5px;border: 1px solid grey; border-radius: 20px;padding-left:8px;;padding-right:8px;;padding-top:2px;;padding-bottom:3px;">
+                                        {{ image.tags}}</p>
+                    
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button style="border-radius: 20px" type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Close</button>
+                                    <button
+                                        style="border-radius: 20px;background-color: pink;border-color:pink;color:red"
+                                        type="button" class="btn btn-primary">Love
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;flex-wrap: wrap;justify-content: center" v-if="!show.allImage">
+
+                    <div v-for="image in userImages" class="card" style="width: 18rem;margin:15px;cursor:pointer" data-toggle="modal"
+                        data-target="#detail1">
+                        <img v-bind:src="image.image"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h3>Title</h3>
+                            <p class="card-text">{{ image.tags}}</p>
+                            <button
+                            style="margin-right:20px;margin-top:-5px;font-family: 'Roboto';border-radius: 35px"
+                            class="btn btn-outline-danger" type="submit">Delete</button>
+                        </div>
+                
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@johmun/vue-tags-input/dist/vue-tags-input.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.8.0/dist/voerro-vue-tagsinput.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://unpkg.com/vue-picture-input"></script>
+    <script src="./src/main.js"></script>
+    <script src="./src/vue.js"></script>
+
 </body>
+
 </html>
